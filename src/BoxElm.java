@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 class BoxElm extends GraphicElm {
 

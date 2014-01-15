@@ -1,23 +1,8 @@
 // Circuit.java (c) 2005,2008 by Paul Falstad, www.falstad.com
 
-import java.io.InputStream;
 import java.awt.*;
-import java.awt.image.*;
 import java.applet.Applet;
-import java.util.Vector;
-import java.io.File;
-import java.util.Random;
-import java.util.Arrays;
-import java.lang.Math;
-import java.net.URL;
 import java.awt.event.*;
-import java.io.FilterInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.StringTokenizer;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 
 public class Circuit extends Applet implements ComponentListener {
     static CirSim ogf;

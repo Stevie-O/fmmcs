@@ -2,9 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 
 class ImportExportClipboardDialog
 extends Dialog
