@@ -16,6 +16,7 @@ import java.lang.reflect.Constructor;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+@SuppressWarnings("serial")
 public class CirSim extends Frame
   implements ComponentListener, ActionListener, AdjustmentListener,
   MouseMotionListener, MouseListener, ItemListener, KeyListener {

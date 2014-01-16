@@ -4,6 +4,7 @@ import java.awt.*;
 import java.applet.Applet;
 import java.awt.event.*;
 
+@SuppressWarnings("serial")
 public class Circuit extends Applet implements ComponentListener {
     static CirSim ogf;
     boolean finished = false;

@@ -3,6 +3,7 @@ import java.awt.event.*;
 
 import java.awt.datatransfer.Clipboard;
 
+@SuppressWarnings("serial")
 class ImportExportClipboardDialog
 extends Dialog
 implements ImportExportDialog,ActionListener

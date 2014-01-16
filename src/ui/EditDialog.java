@@ -8,6 +8,7 @@ interface Editable {
     void setEditValue(int n, EditInfo ei);
 }
 
+@SuppressWarnings("serial")
 class EditDialog extends Dialog implements AdjustmentListener, ActionListener, ItemListener {
     Editable elm;
     CirSim cframe;

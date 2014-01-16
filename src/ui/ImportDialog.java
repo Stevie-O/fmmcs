@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 
+@SuppressWarnings("serial")
 class ImportDialog extends Dialog implements ActionListener {
     CirSim cframe;
     Button importButton, closeButton;

@@ -1,5 +1,6 @@
 import java.awt.*;
 
+@SuppressWarnings("serial")
 class CircuitCanvas extends Canvas {
     CirSim pg;
     CircuitCanvas(CirSim p) {
