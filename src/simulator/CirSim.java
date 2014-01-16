@@ -40,6 +40,8 @@ public class CirSim extends Frame
     Button dumpMatrixButton;
     MenuItem exportItem, exportLinkItem, importItem, exitItem, undoItem, redoItem,
 	cutItem, copyItem, pasteItem, selectAllItem, optionsItem;
+    MenuItem exportFileItem;
+    MenuItem importFileItem;
     Menu optionsMenu;
     Checkbox stoppedCheck;
     CheckboxMenuItem dotsCheckItem;
@@ -265,8 +267,14 @@ public class CirSim extends Frame
 	else
 	    mainMenu.add(m);
 	m.add(importItem = getMenuItem("Import"));
+	if (applet == null)
+	    m.add(importFileItem = getMenuItem("Import from file"));
 	m.add(exportItem = getMenuItem("Export"));
-	m.add(exportLinkItem = getMenuItem("Export Link"));
+	if (applet == null)
+	    m.add(exportFileItem = getMenuItem("Export to file"));
+	else
+	    m.add(exportLinkItem = getMenuItem("Export Link"));
+
 	m.addSeparator();
 	m.add(exitItem   = getMenuItem("Exit"));
 
@@ -734,7 +742,7 @@ public class CirSim extends Frame
 	    applet.destroyFrame();
 	}
     }
-    
+
     public boolean handleEvent(Event ev) {
         if (ev.id == Event.WINDOW_DESTROY) {
 	    destroyFrame();
@@ -1947,10 +1955,14 @@ public class CirSim extends Frame
 	    dumpMatrix = true;
 	if (e.getSource() == exportItem)
 	    doExport(false);
+	if (e.getSource() == exportFileItem)
+	    doExportFile();
 	if (e.getSource() == optionsItem)
 	    doEdit(new EditOptions(this));
 	if (e.getSource() == importItem)
 	    doImport();
+	if (e.getSource() == importFileItem)
+	    doImportFile();
 	if (e.getSource() == exportLinkItem)
 	    doExport(true);
 	if (e.getSource() == undoItem)
@@ -2083,26 +2095,39 @@ public class CirSim extends Frame
     }
 
     void doImport() {
-	if (impDialog == null)
-	    impDialog = ImportExportDialogFactory.Create(this,
-		ImportExportDialog.Action.IMPORT);
-//	    impDialog = new ImportExportClipboardDialog(this,
-//		ImportExportDialog.Action.IMPORT);
+	impDialog = new ImportExportClipboardDialog(this,	
+    		ImportExportDialog.Action.IMPORT);
 	pushUndo();
 	impDialog.execute();
     }
 
+    void doImportFile() {
+	impDialog = ImportExportDialogFactory.Create(this,
+		ImportExportDialog.Action.IMPORT);
+	pushUndo();
+	impDialog.execute();
+    }
+    
     void doExport(boolean url)
     {
     	String dump = dumpCircuit();
 	if (url)
 	    dump = baseURL + "#" + URLEncoder.encode(dump);
-	if (expDialog == null) {
-	    expDialog = ImportExportDialogFactory.Create(this,
-		 ImportExportDialog.Action.EXPORT);
-//	    expDialog = new ImportExportClipboardDialog(this,
-//		 ImportExportDialog.Action.EXPORT);
-	}
+	expDialog = new ImportExportClipboardDialog(this,
+		ImportExportDialog.Action.EXPORT);
+	expDialog.setDump(dump);
+	expDialog.execute();
+    }
+
+
+    void doExportFile()
+    {
+	final boolean url = false; 
+    	String dump = dumpCircuit();
+	if (url)
+	    dump = baseURL + "#" + URLEncoder.encode(dump);
+	expDialog = ImportExportDialogFactory.Create(this,
+		ImportExportDialog.Action.EXPORT);
         expDialog.setDump(dump);
 	expDialog.execute();
     }
