@@ -571,10 +571,11 @@ class Scope {
 		   DataBufferInt dbi = (DataBufferInt) db;
 		   pixels = dbi.getData();
 		*/
-		Class biclass = Class.forName("java.awt.image.BufferedImage");
-		Class dbiclass = Class.forName("java.awt.image.DataBufferInt");
-		Class rasclass = Class.forName("java.awt.image.Raster");
-		Constructor cstr = biclass.getConstructor(
+		@SuppressWarnings("unchecked")
+		Class<? extends Image> biclass = (Class<? extends Image>) Class.forName("java.awt.image.BufferedImage");
+		Class<?> dbiclass = Class.forName("java.awt.image.DataBufferInt");
+		Class<?> rasclass = Class.forName("java.awt.image.Raster");
+		Constructor<? extends Image> cstr = biclass.getConstructor(
 		    new Class[] { int.class, int.class, int.class });
 		image = (Image) cstr.newInstance(new Object[] {
 						     new Integer(w), new Integer(h),

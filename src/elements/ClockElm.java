@@ -6,6 +6,6 @@
 	    frequency = 100;
 	    flags |= FLAG_CLOCK;
 	}
-	Class getDumpClass() { return RailElm.class; }
+	Class<? extends CircuitElm> getDumpClass() { return RailElm.class; }
 	int getShortcut() { return 0; }
     }

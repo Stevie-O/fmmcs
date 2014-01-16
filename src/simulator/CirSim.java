@@ -81,7 +81,7 @@ public class CirSim extends Frame
     CheckboxMenuItem scopeResistMenuItem;
     CheckboxMenuItem scopeVceIcMenuItem;
     MenuItem scopeSelectYMenuItem;
-    Class addingClass;
+    Class<? extends CircuitElm> addingClass;
     int mouseMode = MODE_SELECT;
     int tempMouseMode = MODE_SELECT;
     String mouseModeStr = "Select";
@@ -138,7 +138,7 @@ public class CirSim extends Frame
     int scopeColCount[];
     static EditDialog editDialog;
     static ImportExportDialog impDialog, expDialog;
-    Class dumpTypes[], shortcuts[];
+    Class<? extends CircuitElm> dumpTypes[], shortcuts[];
     static String muString = "u";
     static String ohmString = "ohm";
     String clipboard;
@@ -165,6 +165,16 @@ public class CirSim extends Frame
     String startCircuitText = null;
     String baseURL = "http://www.falstad.com/circuit/";
     
+    static class ReservedDumpType extends CircuitElm {
+
+	ReservedDumpType(int xx, int yy) {
+	    super(xx, yy);
+	    throw new UnsupportedOperationException("This class is a placeholder.");
+	}
+	
+    }
+    
+    @SuppressWarnings("unchecked")
     public void init() {
 	String euroResistor = null;
 	String useFrameStr = null;
@@ -229,13 +239,13 @@ public class CirSim extends Frame
 	dumpTypes = new Class[300];
 	shortcuts = new Class[127];
 
-	// these characters are reserved
-	dumpTypes[(int)'o'] = Scope.class;
-	dumpTypes[(int)'h'] = Scope.class;
-	dumpTypes[(int)'$'] = Scope.class;
-	dumpTypes[(int)'%'] = Scope.class;
-	dumpTypes[(int)'?'] = Scope.class;
-	dumpTypes[(int)'B'] = Scope.class;
+	// these characters are reserved for scopes
+	dumpTypes[(int)'o'] = ReservedDumpType.class;
+	dumpTypes[(int)'h'] = ReservedDumpType.class;
+	dumpTypes[(int)'$'] = ReservedDumpType.class;
+	dumpTypes[(int)'%'] = ReservedDumpType.class;
+	dumpTypes[(int)'?'] = ReservedDumpType.class;
+	dumpTypes[(int)'B'] = ReservedDumpType.class;
 
 	main.setLayout(new CircuitLayout());
 	cv = new CircuitCanvas(this);
@@ -608,7 +618,8 @@ public class CirSim extends Frame
 
     CheckboxMenuItem getClassCheckItem(String s, String t) {
 	try {
-	    Class c = Class.forName(t);
+	    @SuppressWarnings("unchecked")
+	    Class<? extends CircuitElm> c = (Class<? extends CircuitElm>) Class.forName(t);
 	    CircuitElm elm = constructElement(c, 0, 0);
 	    register(c, elm);
 	    if ( elm.needsShortcut() ) {
@@ -628,7 +639,7 @@ public class CirSim extends Frame
 	return mi;
     }
 
-    void register(Class c, CircuitElm elm) {
+    void register(Class<? extends CircuitElm> c, CircuitElm elm) {
 	int t = elm.getDumpType();
 	if (t == 0) {
 	    System.out.println("no dump type: " + c);
@@ -650,7 +661,7 @@ public class CirSim extends Frame
 	    }
 	}
 
-	Class dclass = elm.getDumpClass();
+	Class<? extends CircuitElm> dclass = elm.getDumpClass();
 
 	if ( dumpTypes[t] != null && dumpTypes[t] != dclass ) {
 	    System.out.println("dump type conflict: " + c + " " +
@@ -659,7 +670,7 @@ public class CirSim extends Frame
 	}
 	dumpTypes[t] = dclass;
 
-	Class sclass = elm.getClass();
+	Class<? extends CircuitElm> sclass = elm.getClass();
 
 	if ( elm.needsShortcut() && shortcuts[s] != null &&
 	     shortcuts[s] != sclass )
@@ -2312,18 +2323,18 @@ public class CirSim extends Frame
 		    int y2 = new Integer(st.nextToken()).intValue();
 		    int f  = new Integer(st.nextToken()).intValue();
 		    CircuitElm ce = null;
-		    Class cls = dumpTypes[tint];
+		    Class<? extends CircuitElm> cls = dumpTypes[tint];
 		    if (cls == null) {
 			System.out.println("unrecognized dump type: " + type);
 			break;
 		    }
 		    // find element class
-		    Class carr[] = new Class[6];
+		    Class<?> carr[] = new Class[6];
 		    //carr[0] = getClass();
 		    carr[0] = carr[1] = carr[2] = carr[3] = carr[4] =
 			int.class;
 		    carr[5] = StringTokenizer.class;
-		    Constructor cstr = null;
+		    Constructor<? extends CircuitElm> cstr = null;
 		    cstr = cls.getConstructor(carr);
 		
 		    // invoke constructor with starting coordinates
@@ -2761,12 +2772,12 @@ public class CirSim extends Frame
 	dragElm = constructElement(addingClass, x0, y0);
     }
 
-    CircuitElm constructElement(Class c, int x0, int y0) {
+    CircuitElm constructElement(Class<? extends CircuitElm> c, int x0, int y0) {
 	// find element class
-	Class carr[] = new Class[2];
+	Class<?> carr[] = new Class<?>[2];
 	//carr[0] = getClass();
 	carr[0] = carr[1] = int.class;
-	Constructor cstr = null;
+	Constructor<? extends CircuitElm> cstr = null;
 	try {
 	    cstr = c.getConstructor(carr);
 	} catch (NoSuchMethodException ee) {
@@ -2872,6 +2883,7 @@ public class CirSim extends Frame
 	enableUndoRedo();
     }
     
+    @SuppressWarnings("unchecked")
     public void itemStateChanged(ItemEvent e) {
 	cv.repaint(pause);
 	Object mi = e.getItemSelectable();
@@ -2913,7 +2925,7 @@ public class CirSim extends Frame
 		setMouseMode(MODE_SELECT);
 	    else if (s.length() > 0) {
 		try {
-		    addingClass = Class.forName(s);
+		    addingClass = (Class<? extends CircuitElm>) Class.forName(s);
 		} catch (Exception ee) {
 		    ee.printStackTrace();
 		}
@@ -3119,7 +3131,7 @@ public class CirSim extends Frame
 	    return;
 	}
 	if (e.getKeyChar() > ' ' && e.getKeyChar() < 127) {
-	    Class c = shortcuts[e.getKeyChar()];
+	    Class<? extends CircuitElm> c = shortcuts[e.getKeyChar()];
 	    if (c == null)
 		return;
 	    CircuitElm elm = null;

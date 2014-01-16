@@ -25,7 +25,7 @@ public abstract class CircuitElm implements Editable {
     boolean noDiagonal;
     public boolean selected;
     int getDumpType() { return 0; }
-    Class getDumpClass() { return getClass(); }
+    Class<? extends CircuitElm> getDumpClass() { return getClass(); }
     int getDefaultFlags() { return 0; }
 
     static void initClass(CirSim s) {

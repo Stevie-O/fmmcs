@@ -3,5 +3,5 @@
 	    super(xx, yy);
 	    flags |= FLAG_SWAP;
 	}
-	Class getDumpClass() { return OpAmpElm.class; }
+	Class<? extends CircuitElm> getDumpClass() { return OpAmpElm.class; }
     }
