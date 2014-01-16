@@ -203,7 +203,7 @@ class EditDialog extends Dialog implements AdjustmentListener, ActionListener, I
 	if (changed) {
 	    setVisible(false);
 	    cframe.editDialog = new EditDialog(elm, cframe);
-	    cframe.editDialog.show();
+	    cframe.editDialog.setVisible(true);
 	}
     }
 	

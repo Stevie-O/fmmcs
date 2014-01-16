@@ -31,7 +31,7 @@ implements ImportExportDialog,ActionListener
 	add(closeButton = new Button("Close"));
 	closeButton.addActionListener(this);
 	Point x = cframe.main.getLocationOnScreen();
-	resize(400, 300);
+	setSize(400, 300);
 	Dimension d = getSize();
 	setLocation(x.x + (cframe.winSize.width-d.width)/2,
 		    x.y + (cframe.winSize.height-d.height)/2);

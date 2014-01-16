@@ -246,7 +246,7 @@ public abstract class CircuitElm implements Editable {
     }
     void move(int dx, int dy) {
 	x += dx; y += dy; x2 += dx; y2 += dy;
-	boundingBox.move(dx, dy);
+	boundingBox.setLocation(dx, dy);
 	setPoints();
     }
 

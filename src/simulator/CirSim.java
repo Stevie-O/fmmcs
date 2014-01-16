@@ -454,8 +454,8 @@ public class CirSim extends Frame
 	main.add(powerBar = new Scrollbar(Scrollbar.HORIZONTAL,
 				    50, 1, 1, 100));
 	powerBar.addAdjustmentListener(this);
-	powerBar.disable();
-	powerLabel.disable();
+	powerBar.setEnabled(false);
+	powerLabel.setEnabled(false);
 
 	main.add(new Label("www.falstad.com"));
 
@@ -509,19 +509,19 @@ public class CirSim extends Frame
 
 	if (useFrame) {
 	    Dimension screen = getToolkit().getScreenSize();
-	    resize(860, 640);
+	    setSize(860, 640);
 	    handleResize();
 	    Dimension x = getSize();
 	    setLocation((screen.width  - x.width)/2,
 			(screen.height - x.height)/2);
-	    show();
+	    setVisible(true);
 	} else {
 	    if (!powerCheckItem.getState()) {
 		main.remove(powerBar);
 		main.remove(powerLabel);
 		main.validate();
 	    }
-	    hide();
+	    setVisible(false);
 	    handleResize();
 	    applet.validate();
 	}
@@ -541,7 +541,7 @@ public class CirSim extends Frame
     
     public void triggerShow() {
 	if (!shown)
-	    show();
+	    setVisible(true);
 	shown = true;
     }
 
@@ -2067,7 +2067,7 @@ public class CirSim extends Frame
 	    editDialog = null;
 	}
 	editDialog = new EditDialog(eable, this);
-	editDialog.show();
+	editDialog.setVisible(true);
     }
 
     void doImport() {
@@ -2862,11 +2862,11 @@ public class CirSim extends Frame
 
     void enableItems() {
 	if (powerCheckItem.getState()) {
-	    powerBar.enable();
-	    powerLabel.enable();
+	    powerBar.setEnabled(true);
+	    powerLabel.setEnabled(true);
 	} else {
-	    powerBar.disable();
-	    powerLabel.disable();
+	    powerBar.setEnabled(false);
+	    powerLabel.setEnabled(false);
 	}
 	enableUndoRedo();
     }
