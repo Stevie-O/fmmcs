@@ -19,7 +19,7 @@ class ImportDialog extends Dialog implements ActionListener {
 	importButton.addActionListener(this);
 	add(closeButton = new Button("Close"));
 	closeButton.addActionListener(this);
-	Point x = cframe.main.getLocationOnScreen();
+	Point x = CirSim.main.getLocationOnScreen();
 	setSize(400, 300);
 	Dimension d = getSize();
 	setLocation(x.x + (cframe.winSize.width-d.width)/2,
@@ -44,7 +44,7 @@ class ImportDialog extends Dialog implements ActionListener {
 	if (ev.id == Event.WINDOW_DESTROY) {
 	    CirSim.main.requestFocus();
 	    setVisible(false);
-	    cframe.impDialog = null;
+	    CirSim.impDialog = null;
 	    return true;
 	}
 	return super.handleEvent(ev);

@@ -58,7 +58,7 @@ class EditDialog extends Dialog implements AdjustmentListener, ActionListener, I
 	applyButton.addActionListener(this);
 	add(okButton = new Button("OK"));
 	okButton.addActionListener(this);
-	Point x = cframe.main.getLocationOnScreen();
+	Point x = CirSim.main.getLocationOnScreen();
 	Dimension d = getSize();
 	setLocation(x.x + (cframe.winSize.width-d.width)/2,
 		    x.y + (cframe.winSize.height-d.height)/2);
@@ -202,8 +202,8 @@ class EditDialog extends Dialog implements AdjustmentListener, ActionListener, I
 	}
 	if (changed) {
 	    setVisible(false);
-	    cframe.editDialog = new EditDialog(elm, cframe);
-	    cframe.editDialog.setVisible(true);
+	    CirSim.editDialog = new EditDialog(elm, cframe);
+	    CirSim.editDialog.setVisible(true);
 	}
     }
 	
@@ -222,9 +222,9 @@ class EditDialog extends Dialog implements AdjustmentListener, ActionListener, I
 
     protected void closeDialog()
     {
-	cframe.main.requestFocus();
+	CirSim.main.requestFocus();
 	setVisible(false);
-	cframe.editDialog = null;
+	CirSim.editDialog = null;
     }
 }
 
